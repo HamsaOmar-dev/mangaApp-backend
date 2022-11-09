@@ -1,0 +1,12 @@
+name: Run Asura Scrape
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Latest Asura Scrape
+        run: |
+          cd services
+          node mangaScrape.js

@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+  binaryTargets   = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Manga {
+  id             Int      @id @default(autoincrement())
+  title          String   @unique @db.VarChar(255)
+  link           String
+  image          String
+  latestChapters String  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// model Chapter {
+//   id        Int      @id @default(autoincrement())
+//   number    String
+//   date      String
+//   link      String   @unique
+//   images    String?  @db.Text
+//   Manga     Manga?   @relation(fields: [mangaId], references: [id])
+//   mangaId   Int?
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
