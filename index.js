@@ -17,7 +17,7 @@ prisma
   .catch((err) => console.log(err));
 
 const corsOptions = {
-  origin: ["http://localhost:3000"],
+  origin: ["http://10.131.0.220:3000"],
   optionsSuccessStatus: 200,
 };
 
