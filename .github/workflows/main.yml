@@ -12,6 +12,9 @@ jobs:
       matrix:
         node-version: [14.x, 16.x, 18.x]
 
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -19,8 +22,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-        env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - run: npm i
       - run: |
           cd services
