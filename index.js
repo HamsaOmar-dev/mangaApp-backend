@@ -48,12 +48,19 @@ prisma
 // );
 
 app.use(
-  cors()
-  //   {
-  //   credentials: true,
-  //   origin: "http://localhost:3000",
-  // }
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
 );
+
+// app.use(
+//   cors()
+//   {
+//   credentials: true,
+//   origin: "http://localhost:3000",
+// }
+// );
 
 const indexRouter = require("./routes/index.js");
 // const articlesRouter = require("./routes/articles.js");

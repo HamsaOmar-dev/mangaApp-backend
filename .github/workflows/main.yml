@@ -2,6 +2,8 @@ name: Run Asura Scrape
 on:
   schedule:
     - cron: "*/15 * * * *"
+  push:
+    branches: ["master"]
 jobs:
   cron:
     runs-on: ubuntu-latest
