@@ -138,7 +138,7 @@ async function scrapeAsura() {
                 update: fullMangaData,
                 create: fullMangaData,
               })
-              .then(() => console.log("Saved Manga " + k))
+              .then((res) => console.log(res))
               .catch((err) => console.log(err));
           })
           .catch((err) => console.log(err));
