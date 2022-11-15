@@ -81,16 +81,68 @@ async function scrapeAsura() {
           console.log("All Mangas have been Deleted");
         })
         .catch((err) => console.log(err));
-      data.reverse().forEach(async (mangaData, index) => {
-        await prisma.manga
-          .upsert({
-            where: { title: mangaData.title },
-            update: mangaData,
-            create: mangaData,
+
+      for (let k = 0; k < data.length; k++) {
+        await page
+          .goto(data[k].link, {
+            waitUntil: "networkidle0",
           })
-          .then(() => console.log("Saved Manga " + index + " Data"))
+          .then()
           .catch((err) => console.log(err));
-      });
+
+        await page
+          .evaluate(async () => {
+            const chapterDataList = [];
+            const chapterLength = document.querySelectorAll(
+              "#chapterlist > ul > li"
+            ).length;
+
+            for (let l = 1; l <= chapterLength; l++) {
+              const number = document.querySelector(
+                "#chapterlist > ul > li:nth-child(" +
+                  l +
+                  ") > div > div > a > span.chapternum"
+              )?.textContent;
+              const date = document.querySelector(
+                "#chapterlist > ul > li:nth-child(" +
+                  l +
+                  ") > div > div > a > span.chapterdate"
+              )?.textContent;
+
+              const link = document.querySelector(
+                "#chapterlist > ul > li:nth-child(" + l + ") > div > div > a"
+              ).href;
+
+              const chapterInfo = {
+                number: number,
+                date: date,
+                link: link,
+              };
+              chapterDataList.push(chapterInfo);
+            }
+
+            return chapterDataList;
+          })
+          .then(async (finalData) => {
+            const fullMangaData = {
+              title: data[k].title,
+              link: data[k].link,
+              image: data[k].image,
+              latestChapters: data[k].latestChapters,
+              chapters: JSON.stringify(finalData),
+            };
+
+            await prisma.manga
+              .upsert({
+                where: { title: fullMangaData.title },
+                update: fullMangaData,
+                create: fullMangaData,
+              })
+              .then(() => console.log("Saved Manga " + k))
+              .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err));
+      }
       console.log("Finished Scraping Asura");
     })
     .catch((err) => console.log(err));

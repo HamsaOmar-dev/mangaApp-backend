@@ -35,8 +35,10 @@ prisma
   .catch((err) => console.log(err));
 
 const indexRouter = require("./routes/index.js");
+const mangaRouter = require("./routes/manga.js");
 
 app.use("/", indexRouter);
+app.use("/", mangaRouter);
 
 app.listen(port, () => {
   console.log("Listening on port " + port);

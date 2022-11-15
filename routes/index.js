@@ -5,7 +5,7 @@ router.get("/", async (req, res) => {
   await prisma.manga
     .findMany()
     .then((data) => {
-      res.json(data.reverse());
+      res.json(data);
       console.log("Manga Data sent from DB");
     })
     .catch((err) => console.log(err));

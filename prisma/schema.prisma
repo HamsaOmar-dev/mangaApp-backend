@@ -19,6 +19,7 @@ model Manga {
   link           String
   image          String
   latestChapters String   @db.Text
+  chapters       String   @db.Text
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
