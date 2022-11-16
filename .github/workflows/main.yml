@@ -1,7 +1,7 @@
 name: Run Asura Scrape
 on:
-  schedule:
-    - cron: "51 * * * *"
+  # schedule:
+  #   - cron: "51 * * * *"
   push:
     branches: ["master"]
 jobs:
