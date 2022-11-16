@@ -14,12 +14,25 @@ datasource db {
 }
 
 model Manga {
-  id             Int      @id @default(autoincrement())
-  title          String   @unique @db.VarChar(255)
+  id             Int       @id @default(autoincrement())
+  title          String    @unique @db.VarChar(255)
   link           String
   image          String
-  latestChapters String   @db.Text
-  chapters       String   @db.Text
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  latestChapters String    @db.Text
+  // chapters       String   @db.Text
+  chapters       Chapter[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Chapter {
+  id         Int      @id @default(autoincrement())
+  number     String
+  date       String
+  link       String   @unique
+  images     String   @db.Text
+  mangaTitle String
+  manga      Manga    @relation(fields: [mangaTitle], references: [title])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

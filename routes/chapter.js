@@ -1,18 +1,18 @@
 const router = require("express").Router();
 const prisma = require("../prisma.js");
 
-router.get("/manga/:mangaTitle", async (req, res) => {
-  const mangaTitle = req.params.mangaTitle;
+router.get("/chapter/:chapterLink", async (req, res) => {
+  const chapterLink = req.params.chapterLink;
 
-  await prisma.manga
+  await prisma.chapter
     .findUnique({
       where: {
-        title: mangaTitle,
+        link: chapterLink,
       },
     })
     .then(async (data) => {
       res.json(data);
-      console.log("Manga sent from DB");
+      console.log("Chapter sent from DB");
     })
     .catch((err) => console.log(err));
 });

@@ -36,9 +36,11 @@ prisma
 
 const indexRouter = require("./routes/index.js");
 const mangaRouter = require("./routes/manga.js");
+const chapterRouter = require("./routes/chapter.js");
 
 app.use("/", indexRouter);
 app.use("/", mangaRouter);
+app.use("/", chapterRouter);
 
 app.listen(port, () => {
   console.log("Listening on port " + port);

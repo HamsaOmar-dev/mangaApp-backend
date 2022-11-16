@@ -12,18 +12,16 @@ router.get("/", async (req, res) => {
 });
 
 router.delete("/", async (req, res) => {
-  await prisma.manga
-    .deleteMany()
-    .then(() => {
-      console.log("All Mangas have been Deleted");
-    })
-    .catch((err) => console.log(err));
-
   await prisma.chapter
     .deleteMany()
-    .then(() => {
-      res.json("All Chapters have been Deleted");
-      console.log("All Chapters have been Deleted");
+    .then(async () => {
+      await prisma.manga
+        .deleteMany()
+        .then(() => {
+          console.log("All Mangas and Chapters have been Deleted");
+          res.json("All Mangas and Chapters have been Deleted");
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
 });

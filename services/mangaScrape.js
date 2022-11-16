@@ -75,12 +75,12 @@ async function scrapeAsura() {
       return dataList;
     })
     .then(async (data) => {
-      await prisma.manga
-        .deleteMany()
-        .then(() => {
-          console.log("All Mangas have been Deleted");
-        })
-        .catch((err) => console.log(err));
+      // await prisma.manga
+      //   .deleteMany()
+      //   .then(() => {
+      //     console.log("All Mangas have been Deleted");
+      //   })
+      //   .catch((err) => console.log(err));
 
       for (let k = 0; k < data.length; k++) {
         await page
@@ -129,7 +129,6 @@ async function scrapeAsura() {
               link: data[k].link,
               image: data[k].image,
               latestChapters: data[k].latestChapters,
-              chapters: JSON.stringify(finalData),
             };
 
             await prisma.manga
@@ -140,6 +139,39 @@ async function scrapeAsura() {
               })
               .then((res) => console.log(res))
               .catch((err) => console.log(err));
+
+            for (let l = 0; l < finalData.length; l++) {
+              await page
+                .goto(finalData[l].link, {
+                  waitUntil: "networkidle0",
+                })
+                .then()
+                .catch((err) => console.log(err));
+
+              await page
+                .evaluate(async () => {
+                  const images = Array.from(
+                    document.querySelectorAll("#readerarea > p > img")
+                  ).map((data) => data.src);
+                  return images;
+                })
+                .then(async (imageData) => {
+                  const finalChapterData = {
+                    number: finalData[l].number,
+                    date: finalData[l].date,
+                    link: finalData[l].link,
+                    images: JSON.stringify(imageData),
+                    mangaTitle: data[k].title,
+                  };
+                  await prisma.chapter
+                    .create({
+                      data: finalChapterData
+                    })
+                    .then((res) => console.log(res))
+                    .catch((err) => console.log(err));
+                })
+                .catch((err) => console.log(err));
+            }
           })
           .catch((err) => console.log(err));
       }
