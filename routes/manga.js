@@ -9,6 +9,9 @@ router.get("/manga/:mangaTitle", async (req, res) => {
       where: {
         title: mangaTitle,
       },
+      include: {
+        chapters: true
+      }
     })
     .then(async (data) => {
       res.json(data);

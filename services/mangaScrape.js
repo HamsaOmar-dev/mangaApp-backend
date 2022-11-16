@@ -160,12 +160,13 @@ async function scrapeAsura() {
                     number: finalData[l].number,
                     date: finalData[l].date,
                     link: finalData[l].link,
+                    routeLink: finalData[l].link.slice(17, -1),
                     images: JSON.stringify(imageData),
                     mangaTitle: data[k].title,
                   };
                   await prisma.chapter
                     .create({
-                      data: finalChapterData
+                      data: finalChapterData,
                     })
                     .then((res) => console.log(res))
                     .catch((err) => console.log(err));

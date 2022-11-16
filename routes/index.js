@@ -3,7 +3,11 @@ const prisma = require("../prisma.js");
 
 router.get("/", async (req, res) => {
   await prisma.manga
-    .findMany()
+    .findMany({
+      include: {
+        chapters: true
+      }
+    })
     .then((data) => {
       res.json(data);
       console.log("Manga Data sent from DB");

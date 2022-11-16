@@ -19,7 +19,6 @@ model Manga {
   link           String
   image          String
   latestChapters String    @db.Text
-  // chapters       String   @db.Text
   chapters       Chapter[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
@@ -30,6 +29,7 @@ model Chapter {
   number     String
   date       String
   link       String   @unique
+  routeLink  String   @unique
   images     String   @db.Text
   mangaTitle String
   manga      Manga    @relation(fields: [mangaTitle], references: [title])
