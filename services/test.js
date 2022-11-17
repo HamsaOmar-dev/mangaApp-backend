@@ -1,5 +1,4 @@
-const finalData = {
-  link: "https://asura.gg/ill-be-taking-a-break-for-personal-reasons-chapter-9/",
-};
+const list = ["Hamsa", "Ahmed", "Omar"];
+const revList = list.reverse();
 
-console.log(finalData.link.slice(17, -1));
+console.log(revList);

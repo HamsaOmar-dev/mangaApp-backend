@@ -1,9 +1,7 @@
-name: Run Asura Scrape
+name: Run Full Asura Scrape
 on:
-  # schedule:
-  #   - cron: "51 * * * *"
-  # push:
-  #   branches: ["master"]
+  push:
+    branches: ["master"]
 jobs:
   cron:
     runs-on: ubuntu-latest
@@ -25,4 +23,4 @@ jobs:
       - run: npm i
       - run: |
           cd services
-          node asuraScrape.js
+          node fullAsuraScrape.js
